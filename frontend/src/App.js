@@ -1,25 +1,26 @@
 import logo from './logo.svg';
 import './App.css';
+import { Div, Button, Icon } from "atomize";
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <>
+      <Button
+        h="2.5rem"
+        w="2.5rem"
+        bg="warning700"
+        hoverBg="warning600"
+        rounded="circle"
+        m={{ r: "1rem" }}
+        shadow="2"
+        hoverShadow="4"
         >
-          Learn React
-        </a>
-      </header>
-    </div>
+        <Icon name="Search" size="20px" color="white" />
+      </Button>
+    </>
   );
 }
+
 
 export default App;
