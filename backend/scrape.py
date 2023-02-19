@@ -1,6 +1,9 @@
 import requests
 from bs4 import BeautifulSoup 
 
+import os
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
 url = "https://dph.illinois.gov/topics-services/diseases-and-conditions/diseases-a-z-list.html"
 
 page = requests.get(url)

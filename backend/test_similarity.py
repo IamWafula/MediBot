@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 import re
+import os
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 df=pd.read_html("https://people.dbmi.columbia.edu/~friedma/Projects/DiseaseSymptomKB/index.html")
 df1=df[0]

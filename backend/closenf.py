@@ -1,12 +1,20 @@
-api_key = "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"
+api_key = "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"
 
 import openai
 import json
+import nltk
+#from similarity import elements_to_send
 openai.api_key = api_key ## You can store secrets by clicking on the Python kernel
+
+import os
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+os.system('python similarity.py')
+
+with open('elements.txt') as f:
+    lines = f.readlines()
 
 
 def updateIdea(currentIdeaState, message):
-  #lst = symptoms
   '''
   def findSymptoms(userInput):
       while userInput != anyPreciseMedicalTerm:
@@ -22,13 +30,15 @@ def updateIdea(currentIdeaState, message):
         print(DiseaseName with third highest Probability based on symptoms)
     '''
   prompt = '''
-    def askClarifyingQuestions():
-        read({lst})
-        for symptoms in lst:
-            while symptoms.isnotPreciseEnough():
-                askCreativeClarifyingQuestions()
-                symptoms.morePrecise()
-        if 
+    def askClarifyingQuestions(userInput):
+        read(UserInput) as list
+        if UserInput[0] != PreciseEnough():
+          askQuestionsToClarify()
+          UseSimpleTermsInQuestion()
+          ExplainMedicalTextIfUserRequests()       
+        select symptom in UserInput similar to UserInput[0]:
+          askQuestionsToClarify()          
+         
 
 
   # Inputs
@@ -51,14 +61,32 @@ def updateIdea(currentIdeaState, message):
   )
 
   responseText = response.choices[0].text
-  print("The new idea state:", responseText)
-  return json.loads(responseText)
+
+  #print(responseText)
+  sentences = nltk.sent_tokenize(responseText)
+  outputList = []
+  for a in sentences:
+    a = a.replace("\"Clarifying question\"", "").replace(":","").replace("\"", "")
+    if "?" in a:
+      outputList.append(a)
+
+  #print("The new idea state:", responseText)
+  #responseText = responseText.split(":")[1]
+  #finalData = responseText.split(",")
+  #print(finalData[0])
+
+  #return json.load(responseText)
+  return outputList
+
 
 startingState = {
-'Three suspected diseases and their probability':'',
 'Clarifying question':'',
 'Identified symptoms with their precise name':''
 }
 
-userInput = input('Response: ')
-newState = updateIdea(startingState, userInput)
+#userInput = elements_to_send
+
+# print(userInput)
+newState = updateIdea(startingState, lines)
+
+print(newState)
