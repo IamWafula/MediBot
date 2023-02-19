@@ -1,8 +1,14 @@
 
+<<<<<<< HEAD
 import requests
 from bs4 import BeautifulSoup
 import re 
 '''
+=======
+import os
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
+
+>>>>>>> 4714dd793d002130c9483211b3fe3dade1541178
 url = "https://dph.illinois.gov/topics-services/diseases-and-conditions/diseases-a-z-list.html"
 
 page = requests.get(url)
@@ -46,3 +52,4 @@ for row in rows:
 print(symptoms)
 print(len(rows))
 
+#print(diseases)

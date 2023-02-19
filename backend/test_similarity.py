@@ -1,37 +1,8 @@
 import pandas as pd
 import numpy as np
 import re
-from sentence_transformers import SentenceTransformer, util
-from scrape import diseases
-model = SentenceTransformer('all-MiniLM-L6-v2')
-'''
-# Two lists of sentences
-#sentences1 = ["I feel really tired and my whole body hurts. My throat is scratchy and my nose is stuffy. I can't stop coughing and sometimes I feel really hot and then really cold. I don't really feel like eating much either."]
-#sentences1=['the front of my kneecap is swollen and has throbbing pain']
-#sentences1=['I feel symptoms every day, especially after I work out,']
-sentences1=['Arthritis and Chronic Fatigue Syndrome']
-sentences2 = diseases
-
-#Compute embedding for both lists
-embeddings1 = model.encode(sentences1, convert_to_tensor=True)
-embeddings2 = model.encode(sentences2, convert_to_tensor=True)
-
-#Compute cosine-similarities
-cosine_scores = util.cos_sim(embeddings1, embeddings2)
-
-#Output the pairs with their score
-scores=dict()
-for i in range(len(sentences2)):
-    scores[sentences2[i]]=cosine_scores[0][i]
-   
-scores=sorted(scores.items(), reverse=True, key=lambda x:x[1])
-count=0
-for a,b in scores:
-    print(a,":", b)
-    count+=1
-    if(count==15):
-        break
-    '''
+import os
+os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 df=pd.read_html("https://people.dbmi.columbia.edu/~friedma/Projects/DiseaseSymptomKB/index.html")
 df1=df[0]
@@ -53,6 +24,7 @@ Symptoms=[a for a in Symptoms if str(a)!="nan"]
 for a in range(len(Symptoms)):
   if(type(Symptoms[a])==float):
     Symptoms[a]=Symptoms[a].replace("^", " or ")
+Complete_list=df1[2]
 Complete_list=[a for a in Complete_list if str(a)!="nan"]
 for a in range(len(Complete_list)):
   if(type(Complete_list[a])==float):
@@ -73,10 +45,10 @@ for a in range(len(dis)-1):
 New_Dataset[dis[-1]]=Complete_list[num_occur[-1]:]
 
 t=[]
-for a in Complete_list1:
+for a in New_Dataset.keys():
   l=[]
-  for b in New_Dataset.keys():
-    l.append(a in New_Dataset[b])
+  for b in Complete_list1:
+    l.append(b in New_Dataset[a])
   t.append(l)
 for a in range(len(t)):
   for b in range(len(t[a])):
@@ -86,10 +58,9 @@ for a in range(len(t)):
       t[a][b]=0
 
 diagnosis=pd.DataFrame(t)
-diagnosis.index=Complete_list1
-diagnosis.columns=dis
-for a in diagnosis.columns:
-  print(a, diagnosis[a].sum())
+diagnosis.index=dis
+diagnosis.columns=Complete_list1
+
 
 
 
