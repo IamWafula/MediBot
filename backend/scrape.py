@@ -1,6 +1,8 @@
-import requests
-from bs4 import BeautifulSoup 
 
+import requests
+from bs4 import BeautifulSoup
+import re 
+'''
 url = "https://dph.illinois.gov/topics-services/diseases-and-conditions/diseases-a-z-list.html"
 
 page = requests.get(url)
@@ -26,4 +28,21 @@ for elements in main_contents:
             diseases.append(k.replace("\n", ""))
         else:
             diseases.append(paragraph.text)
+'''
+
+url2 = 'https://people.dbmi.columbia.edu/~friedma/Projects/DiseaseSymptomKB/index.html'
+
+page2 = requests.get(url2)
+#body > div > table > tbody > tr > td:nth-child(3) > p > span
+soup2 = BeautifulSoup(page2.content, 'html.parser')
+
+rows = soup2.find_all('tr')
+
+symptoms = []
+for row in rows:
+    symptom = row.find_all('td')[2].text[15:]
+    symptoms.append(symptom)
+
+print(symptoms)
+print(len(rows))
 
