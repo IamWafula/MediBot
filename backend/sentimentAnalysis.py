@@ -46,7 +46,7 @@ def checkSentiment(currentIdeaState, message):
   presence_penalty=0.0
 )
   responseText = response.choices[0].text
-  #print("The new idea state:", responseText)
+  #print(type(responseText))
   
   '''sentences = nltk.sent_tokenize(responseText)
   outputList = []
@@ -55,7 +55,7 @@ def checkSentiment(currentIdeaState, message):
     if "?" in a:
       outputList.append(a)'''
 
-  return json.loads(responseText)
+  return #json.loads(responseText)
 
 
 sentimentState = {
