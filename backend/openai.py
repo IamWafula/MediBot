@@ -6,8 +6,9 @@ openai.api_key = api_key ## You can store secrets by clicking on the Python kern
 
 
 def updateIdea(currentIdeaState, message):
-  prompt = '''
-    def findSymptoms(userInput):
+  #lst = symptoms
+  '''
+  def findSymptoms(userInput):
       while userInput != anyPreciseMedicalTerm:
         try:
           askCreativeClarifyingQuestion()
@@ -19,6 +20,15 @@ def updateIdea(currentIdeaState, message):
         print(DiseaseName with highest Probability based on symptoms)
         print(DiseaseName with second highest Probability based on symptoms)
         print(DiseaseName with third highest Probability based on symptoms)
+    '''
+  prompt = '''
+    def askClarifyingQuestions():
+        read({lst})
+        for symptoms in lst:
+            while symptoms.isnotPreciseEnough():
+                askCreativeClarifyingQuestions()
+                symptoms.morePrecise()
+        if 
 
 
   # Inputs
@@ -50,5 +60,5 @@ startingState = {
 'Identified symptoms with their precise name':''
 }
 
-
-#newState = updateIdea(startingState, "Put in user input here")
+userInput = input('Response: ')
+newState = updateIdea(startingState, userInput)
