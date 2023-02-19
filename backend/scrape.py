@@ -27,3 +27,4 @@ for elements in main_contents:
         else:
             diseases.append(paragraph.text)
 
+#print(diseases)
