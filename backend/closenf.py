@@ -1,20 +1,25 @@
-api_key = "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"
+
 
 import openai
 import json
 import nltk
-#from similarity import elements_to_send
-openai.api_key = api_key ## You can store secrets by clicking on the Python kernel
+nltk.download('all')
 
-import os
-os.environ["TOKENIZERS_PARALLELISM"] = "false"
-os.system('python similarity.py')
+#from similarity import elements_to_send
+api_key = "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"
+openai.api_key = api_key ## You can store secrets by clicking on the Python kernel
 
 with open('elements.txt') as f:
     lines = f.readlines()
 
 
-def updateIdea(currentIdeaState, message):
+def updateIdea(message):
+
+  currentIdeaState = {
+  'Clarifying question':'',
+  'Identified symptoms with their precise name':''
+  }
+
   '''
   def findSymptoms(userInput):
       while userInput != anyPreciseMedicalTerm:
@@ -61,13 +66,17 @@ def updateIdea(currentIdeaState, message):
   )
 
   responseText = response.choices[0].text
+  #rint(response.choices[0].text)
 
   #print(responseText)
   sentences = nltk.sent_tokenize(responseText)
+
   outputList = []
   for a in sentences:
     a = a.replace("\"Clarifying question\"", "").replace(":","").replace("\"", "")
     if "?" in a:
+      if "{" in a:
+        a = a.replace(" {\n     ", "")
       outputList.append(a)
 
   #print("The new idea state:", responseText)
@@ -79,14 +88,10 @@ def updateIdea(currentIdeaState, message):
   return outputList
 
 
-startingState = {
-'Clarifying question':'',
-'Identified symptoms with their precise name':''
-}
 
 #userInput = elements_to_send
 
 # print(userInput)
-newState = updateIdea(startingState, lines)
+#newState = updateIdea(startingState, lines)
 
-print(newState)
+#print(newState)

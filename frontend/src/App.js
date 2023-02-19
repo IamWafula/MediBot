@@ -16,17 +16,29 @@ function App() {
   const [botmessages, setBotMessages] = useState([]);
   const [usermessages, setUserMessages] = useState([]);
 
+
   const [currentMessage, setCurrentMessage] = useState("");
 
-  
-
   async function getResponse () {
-    let value = await fetch('http://127.0.0.1:5000/response').then(response => response.json());
+
+    const params = {
+      'userInput' : currentMessage
+    };
+
+    const options = {
+      method: 'POST',
+      body: JSON.stringify( params )
+    };
+
+    console.log(params)
+
+    let value = await fetch('http://127.0.0.1:5000/response?userInput='+currentMessage).then(response => response.json());
     //.then(data => this.setState({ totalReactPackages: data.total }));
 
 
     setBotMessages([...botmessages, value['response']])
     setUserMessages([...usermessages, currentMessage])
+    
     
   }
 

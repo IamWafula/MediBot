@@ -4,6 +4,20 @@ import re
 import os
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
+
+import ssl
+try:
+    _create_unverified_https_context = ssl._create_unverified_context
+except AttributeError:
+    # Legacy Python that doesn't verify HTTPS certificates by default
+    pass
+else:
+    # Handle target environment that doesn't support HTTPS verification
+    ssl._create_default_https_context = _create_unverified_https_context
+
+#from scrape import diseases
+#from test_similarity import Complete_list1
+
 df=pd.read_html("https://people.dbmi.columbia.edu/~friedma/Projects/DiseaseSymptomKB/index.html")
 df1=df[0]
 Diseases= df1[df1[0].isna()==0][0]
@@ -60,6 +74,7 @@ for a in range(len(t)):
 diagnosis=pd.DataFrame(t)
 diagnosis.index=dis
 diagnosis.columns=Complete_list1
+
 
 
 
