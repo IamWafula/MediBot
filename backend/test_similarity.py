@@ -91,3 +91,5 @@ diagnosis.columns=dis
 for a in diagnosis.columns:
   print(a, diagnosis[a].sum())
 
+
+

@@ -19,3 +19,4 @@ print(cosine_scores)
 #Output the pairs with their score
 for i in range(len(sentences2)):
     print("{} \t\t {} \t\t Score: {:.4f}".format(sentences1, sentences2[i], cosine_scores[0][i]))
+
