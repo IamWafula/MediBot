@@ -3,6 +3,7 @@
 import openai
 import json
 import nltk
+
 nltk.download('all')
 
 #from similarity import elements_to_send

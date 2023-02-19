@@ -15,21 +15,31 @@ from similarity import getSymptomList
 print(getSymptomList("I have pain in my left arm and my left leg"))
 """
 
-import iris
+import iknowpy
 
-def main():
-    connection_string = "k8s-d7176654-afae8894-57a73db878-d8159e8bf2c102ac.elb.us-east-1.amazonaws.com:1972/USER/"
-    username = "SQLAdmin"
-    password = "B!pM7XVUjuj11"
+engine = iknowpy.iKnowEngine()
 
-    connection = iris.connect(connection_string, username, password)
+# show supported languages
+print(engine.get_languages_set())
 
-    irispy = iris.createIRIS(connection)
-    print(irispy.getOREF())
+# index some text
+text = 'This is a test of the Python interface to the iKnow engine.'
+engine.index(text, 'en')
+
+# print(getattr(engine, ))
+
+# print the raw resultt
 
 
-    connection.close()
-
-
-if __name__ == "__main__":
-    main()
+engine.index("My head and hand are hurting ","en")
+paragraph=[]
+for s in engine.m_index['sentences']:
+    for e in s['entities']:
+        #if(e['type']=='Concept'):
+        print(e['type'], " : ", e['index'])
+            #print(e['index'])
+            #paragraph.append(e['index'])
+#paragraph=' '.join(paragraph)
+#print(paragraph)
+#print(engine.m_index)
+           

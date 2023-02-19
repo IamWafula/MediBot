@@ -52,6 +52,7 @@ for a in Complete_list:
 
 #Complete_list1=Complete_list1[1:]
 Complete_list=Complete_list1.copy()
+
 Complete_list1=list(dict.fromkeys(Complete_list1))
 New_Dataset=dict()
 for a in range(len(dis)-1):
@@ -74,8 +75,3 @@ for a in range(len(t)):
 diagnosis=pd.DataFrame(t)
 diagnosis.index=dis
 diagnosis.columns=Complete_list1
-
-
-
-
-

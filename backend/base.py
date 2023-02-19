@@ -5,6 +5,8 @@ from flask_caching import Cache
 from similarity import getSymptomList
 from closenf import updateIdea
 
+from sentimentAnalysis import checkSentiment
+
 
 
 config = {
@@ -36,6 +38,8 @@ listQuestions = []
 listAllSymptoms = []
 currQuestion = 1"""
 
+cache.set('responses', {})
+
 @api.route('/response', methods=['GET','POST'])
 def response():
     print(cache.get('initial'))
@@ -59,12 +63,24 @@ def response():
 
         return jsonify({'response': listQuestions[0]})
     else:
+        userInput = request.args.get('userInput')
+        sentiment = checkSentiment(userInput)['Sentiment']
+
+        allResponses = cache.get('responses')
+        allResponses[cache.get('listQuestions')[cache.get('currentQuestion')-1]] = [userInput,sentiment]
+        cache.set('responses', allResponses)
+
+
         if cache.get('currentQuestion') < len(cache.get('listQuestions')):
             cache.set('currentQuestion', cache.get('currentQuestion')+1)
             return jsonify({'response': cache.get('listQuestions')[cache.get('currentQuestion')-1]})
 
         else:
             ## produce summary later (if we have time)
+            print(cache.get('responses'))
+
+            print(cache.get('listAllSymptoms'))
+            
             return jsonify({'response': 'Thank you for your input. We will contact you soon.'})
         
 

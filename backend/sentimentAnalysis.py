@@ -1,11 +1,15 @@
 import openai
-api_key = ""
+api_key = "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"
 openai.api_key = api_key
 import json
 #import nltk
 #nltk.download('punkt')
 
-def checkSentiment(currentIdeaState, message):
+def checkSentiment(message):
+
+  currentIdeaState = {
+    'Sentiment' : ''
+  }
   prompt = '''
   def categorizeResponse(user):
     if userHasSymptom() = Positive:
@@ -24,6 +28,12 @@ def checkSentiment(currentIdeaState, message):
     A: Positive
     Q: I am not sure
     A: Neutral
+    Q: I feel bad
+    A: Positive
+    Q: I do not feel bad
+    A: Negative
+    Q: I don't think I have a headache
+    A: Neutral
   
 
     Q: This new music video blew my mind
@@ -41,7 +51,7 @@ def checkSentiment(currentIdeaState, message):
   model="text-davinci-003",
   prompt=prompt,
   temperature=0.5,
-  max_tokens=100,
+  max_tokens=500,
   frequency_penalty=0.0,
   presence_penalty=0.0
 )
@@ -55,13 +65,10 @@ def checkSentiment(currentIdeaState, message):
     if "?" in a:
       outputList.append(a)'''
 
-  return #json.loads(responseText)
+  return json.loads(responseText)
 
 
-sentimentState = {
-  'Sentiment' : ''
-}
-userInput = input('Sentence to evaluate sentiment: ')
-sentimentResult = checkSentiment(sentimentState, userInput)
 
-print(sentimentResult)
+# sentimentResult = checkSentiment(sentimentState, userInput)
+
+# print(sentimentResult)

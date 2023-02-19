@@ -1,5 +1,15 @@
+from nltk.stem import PorterStemmer
+from nltk.corpus import stopwords
+import iknowpy
 
-def getSymptomList(userSentence):
+import nltk
+
+nltk.download('all')
+
+# initialize the engine
+iknow = iknowpy.iKnowEngine()
+
+def getSymptomList(userSentenceMain):
     import ssl
 
     try:
@@ -17,6 +27,25 @@ def getSymptomList(userSentence):
 
 
     model = SentenceTransformer('all-MiniLM-L6-v2')
+
+    #userSentence = nltk.sent_tokenize(userSentenceMain)
+    stemmer = PorterStemmer()
+
+    # Stemming
+    #for i in range(len(userSentence)):
+        #words = nltk.word_tokenize(userSentence[i])
+    iknow.index(userSentenceMain, "en")
+    paragraph=[]
+    for s in iknow.m_index['sentences']:
+        for e in s['entities']:
+            if(e['type']=='Concept' or e['type']=='Relation'):
+                paragraph.append(e['index'])
+    words = [stemmer.stem(word) for word in paragraph]
+    # words = [stemmer.stem(word) for word in words if word not in set(stopwords.words('english'))]
+        
+    userSentence = ' '.join(words)  
+
+    print(userSentence)
 
 
     # Two lists of sentences
