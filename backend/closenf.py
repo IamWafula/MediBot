@@ -7,7 +7,7 @@ import nltk
 nltk.download('all')
 
 #from similarity import elements_to_send
-api_key = "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"
+api_key = process.env.API_KEY
 openai.api_key = api_key ## You can store secrets by clicking on the Python kernel
 
 with open('elements.txt') as f:
