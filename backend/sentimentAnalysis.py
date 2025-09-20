@@ -1,5 +1,5 @@
 import openai
-api_key = "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"
+api_key = process.env.API_KEY
 openai.api_key = api_key
 import json
 #import nltk
